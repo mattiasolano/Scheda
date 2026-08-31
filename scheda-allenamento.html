@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Scheda 4 settimane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#161A22;
+    --panel:#1F2530;
+    --panel-2:#252C39;
+    --line:#323B4B;
+    --text:#ECEDE7;
+    --muted:#97A0B0;
+    --accent:#F0B23E;
+    --accent-ink:#241A05;
+    --good:#7FC98F;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Barlow Semi Condensed',system-ui,sans-serif;
+    line-height:1.45;
+    padding-bottom:90px;
+  }
+  header{padding:22px 18px 14px}
+  header h1{font-size:1.65rem;font-weight:800;letter-spacing:.2px}
+  header p{color:var(--muted);font-size:.95rem;margin-top:2px}
+  .weekbar{
+    margin:10px 18px 0;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:.92rem;
+    color:var(--muted);
+  }
+  .weekbar strong{color:var(--accent);font-weight:700}
+
+  nav{
+    position:sticky;top:0;z-index:10;
+    display:flex;gap:6px;
+    padding:12px 18px;
+    background:linear-gradient(var(--bg) 75%,transparent);
+  }
+  nav button{
+    flex:1;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:var(--muted);
+    font-family:inherit;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:10px 0 8px;
+    cursor:pointer;
+  }
+  nav button small{display:block;font-weight:500;font-size:.68rem;letter-spacing:.2px}
+  nav button.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink);
+  }
+  nav button.active small{color:#5c4712}
+
+  main{padding:4px 18px}
+  .day{display:none}
+  .day.active{display:block}
+  .phase{
+    color:var(--muted);
+    font-size:.92rem;
+    margin:16px 2px 8px;
+  }
+  .phase b{color:var(--text);font-weight:600}
+
+  .ex{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .ex-head{padding:12px 14px 10px}
+  .ex-name{font-weight:700;font-size:1.08rem}
+  .ex-meta{
+    display:flex;gap:14px;flex-wrap:wrap;
+    color:var(--muted);
+    font-size:.9rem;
+    margin-top:2px;
+    font-variant-numeric:tabular-nums;
+  }
+  .ex-meta .scheme{color:var(--accent);font-weight:600}
+  .last{
+    margin:0 14px;
+    padding:8px 0;
+    border-top:1px dashed var(--line);
+    font-size:.92rem;
+    color:var(--muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .last .val{color:var(--text);font-weight:600}
+  .last .up{color:var(--good);font-weight:700}
+  .logrow{
+    display:flex;gap:8px;align-items:center;
+    padding:10px 14px 12px;
+  }
+  .logrow input{
+    width:0;flex:1;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--text);
+    font-family:inherit;
+    font-size:1rem;
+    padding:9px 10px;
+  }
+  .logrow input::placeholder{color:#6b7484}
+  .logrow button{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border:none;
+    border-radius:8px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:.95rem;
+    padding:10px 16px;
+    cursor:pointer;
+  }
+  .logrow button.saved{background:var(--good)}
+  details.hist{border-top:1px solid var(--line)}
+  details.hist summary{
+    list-style:none;
+    padding:9px 14px;
+    color:var(--muted);
+    font-size:.88rem;
+    cursor:pointer;
+  }
+  details.hist summary::-webkit-details-marker{display:none}
+  details.hist[open] summary{color:var(--text)}
+  .hist ul{padding:0 14px 12px;list-style:none}
+  .hist li{
+    font-size:.92rem;color:var(--muted);
+    padding:3px 0;
+    font-variant-numeric:tabular-nums;
+  }
+  .hist li span{color:var(--text);font-weight:600}
+
+  .note{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:.95rem;
+    margin:14px 0;
+    color:var(--muted);
+  }
+  .note b{color:var(--text)}
+
+  .guide h2{font-size:1.2rem;margin:20px 2px 8px;font-weight:700}
+  .guide p, .guide li{font-size:.97rem;color:var(--muted)}
+  .guide p b, .guide li b{color:var(--text)}
+  .guide ul{padding-left:18px;margin:6px 0}
+  .guide li{margin-bottom:6px}
+  details.exec{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:8px;
+  }
+  details.exec summary{
+    padding:11px 14px;
+    font-weight:600;
+    cursor:pointer;
+    list-style:none;
+  }
+  details.exec summary::-webkit-details-marker{display:none}
+  details.exec p{padding:0 14px 12px;font-size:.94rem}
+
+  .toast{
+    position:fixed;left:50%;bottom:20px;
+    transform:translateX(-50%) translateY(80px);
+    background:var(--good);color:#0d2213;
+    font-weight:700;font-size:.95rem;
+    padding:10px 18px;border-radius:99px;
+    transition:transform .25s ease;
+    z-index:50;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Scheda 4 settimane</h1>
+  <p>3 giorni di forza + 1 metabolico · segna i carichi a ogni sessione</p>
+</header>
+<div class="weekbar" id="weekbar"></div>
+
+<nav id="tabs"></nav>
+<main id="content"></main>
+<div class="toast" id="toast">Salvato</div>
+
+<script>
+const DAYS = [
+  {
+    id:"g1", tab:"G1", label:"Spinta",
+    warmup:"5' cardio leggero · circonduzioni spalle · band pull-apart 2×15 · 2 serie di avvicinamento di panca",
+    cooldown:"Stretching petto sullo stipite, tricipiti dietro la testa · 5'",
+    exercises:[
+      {id:"panca", name:"Panca piana bilanciere", scheme:"4 × 6–10", rest:"2–3'", focus:"Petto, tricipiti"},
+      {id:"lento", name:"Lento avanti manubri (seduto)", scheme:"3 × 8–12", rest:"2'", focus:"Spalle"},
+      {id:"dip", name:"Dip alle parallele", scheme:"3 × 8–12", rest:"90\"", focus:"Petto basso, tricipiti"},
+      {id:"lat", name:"Alzate laterali", scheme:"3 × 12–15", rest:"60\"", focus:"Deltoide laterale"},
+      {id:"croci", name:"Croci ai cavi", scheme:"3 × 12–15", rest:"60\"", focus:"Petto"},
+      {id:"french", name:"French press bilanciere EZ", scheme:"3 × 10–12", rest:"60\"", focus:"Tricipiti"}
+    ]
+  },
+  {
+    id:"g2", tab:"G2", label:"Gambe",
+    warmup:"5' cyclette · mobilità anche e caviglie · 10 squat a corpo libero · avvicinamento di squat",
+    cooldown:"Stretching femorali, quadricipiti, flessori dell'anca · 5'",
+    exercises:[
+      {id:"squat", name:"Squat con bilanciere", scheme:"4 × 6–10", rest:"2–3'", focus:"Quadricipiti, glutei"},
+      {id:"rdl", name:"Stacco rumeno", scheme:"3 × 8–10", rest:"2'", focus:"Femorali, glutei"},
+      {id:"affondi", name:"Affondi camminati manubri", scheme:"3 × 10 per gamba", rest:"90\"", focus:"Glutei, quadricipiti"},
+      {id:"legcurl", name:"Leg curl", scheme:"3 × 10–12", rest:"60\"", focus:"Femorali"},
+      {id:"calf", name:"Calf in piedi", scheme:"4 × 12–15", rest:"60\"", focus:"Polpacci"},
+      {id:"planktaps", name:"Plank con shoulder taps", scheme:"3 × 40\"", rest:"45\"", focus:"Core", noKg:true},
+      {id:"legraise", name:"Leg raises", scheme:"3 × 12", rest:"45\"", focus:"Addome basso", noKg:true}
+    ]
+  },
+  {
+    id:"g3", tab:"G3", label:"Trazione",
+    warmup:"5' vogatore leggero · band pull-apart · scapole attive alla sbarra · avvicinamento",
+    cooldown:"Appeso alla sbarra 2×20\" · stretching dorsali e bicipiti · 5'",
+    exercises:[
+      {id:"trazioni", name:"Trazioni alla sbarra", scheme:"4 × 6–10", rest:"2–3'", focus:"Dorsali (zavorra se >10 rip)"},
+      {id:"rematore", name:"Rematore con bilanciere", scheme:"4 × 8–10", rest:"2'", focus:"Spessore dorsale"},
+      {id:"latm", name:"Lat machine presa stretta", scheme:"3 × 10–12", rest:"90\"", focus:"Dorsali"},
+      {id:"facepull", name:"Face pull ai cavi", scheme:"3 × 15", rest:"60\"", focus:"Deltoide post., salute spalle"},
+      {id:"curl", name:"Curl con bilanciere", scheme:"3 × 8–12", rest:"60\"", focus:"Bicipiti"},
+      {id:"hammer", name:"Curl a martello", scheme:"3 × 10–12", rest:"60\"", focus:"Brachiale, avambracci"}
+    ]
+  },
+  {
+    id:"g4", tab:"G4", label:"Metabolico",
+    warmup:"Corsa 10' · ritmo costante o progressivo",
+    cooldown:"Vogatore 10' a intensità moderata, poi core (sotto) e stretching",
+    circuit:"Circuito: 4–5 giri, recupero 90\"–2' a fine giro. Settimana 1 → 4 giri · settimane 2–3 → 5 giri · settimana 4 → kettlebell più pesante o recuperi a 75\".",
+    exercises:[
+      {id:"kbclean", name:"Kettlebell clean", scheme:"10 rip (5 per braccio)", rest:"—", focus:"Full body"},
+      {id:"kbswing", name:"Kettlebell swing", scheme:"15 rip", rest:"—", focus:"Anche, glutei"},
+      {id:"jumpsquat", name:"Jump squat", scheme:"12–15 rip", rest:"—", focus:"Esplosività gambe", noKg:true},
+      {id:"burpees", name:"Burpees con push-up", scheme:"10 rip", rest:"—", focus:"Full body", noKg:true},
+      {id:"giri", name:"Giri completati oggi", scheme:"obiettivo 4–5", rest:"—", focus:"Segna quanti giri hai chiuso", noKg:true},
+      {id:"ptaps4", name:"Plank shoulder taps (core)", scheme:"3 × 45\"", rest:"superserie", focus:"Core", noKg:true},
+      {id:"lraise4", name:"Leg raises (core)", scheme:"3 × 12–15", rest:"superserie", focus:"Addome basso", noKg:true},
+      {id:"twist", name:"Russian twist con kettlebell", scheme:"3 × 20 totali", rest:"1' a fine giro", focus:"Obliqui"}
+    ]
+  },
+  { id:"guida", tab:"?", label:"Guida", guide:true }
+];
+
+const STORAGE_KEY = "workout-logs-v1";
+let logs = {};
+let startDate = null;
+
+function today(){
+  const d = new Date();
+  return d.toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit"});
+}
+
+// Livelli di salvataggio: 1) storage di Claude, 2) memoria del browser, 3) solo sessione corrente
+let storageMode = null;
+
+async function tryClaudeGet(){
+  const r = await window.storage.get(STORAGE_KEY);
+  return r && r.value ? r.value : null;
+}
+async function tryClaudeSet(v){
+  const r = await window.storage.set(STORAGE_KEY, v);
+  if(!r) throw new Error("set fallito");
+}
+
+function applyData(raw){
+  if(!raw) return;
+  try{
+    const data = JSON.parse(raw);
+    logs = data.logs || {};
+    startDate = data.startDate || null;
+  }catch(e){}
+}
+
+async function loadLogs(){
+  // 1) storage di Claude (se il file gira come artifact)
+  if(typeof window.storage !== "undefined" && window.storage && window.storage.get){
+    try{
+      const raw = await tryClaudeGet();
+      await tryClaudeSet(raw || JSON.stringify({logs:{}, startDate:null}));
+      storageMode = "claude";
+      applyData(raw);
+    }catch(e){ storageMode = null; }
+  }
+  // 2) memoria del browser (file aperto direttamente sul telefono)
+  if(!storageMode){
+    try{
+      const t = "__test__";
+      localStorage.setItem(t,"1"); localStorage.removeItem(t);
+      storageMode = "local";
+      applyData(localStorage.getItem(STORAGE_KEY));
+    }catch(e){ storageMode = null; }
+  }
+  // 3) nessuno dei due: i dati vivono solo finché la pagina è aperta
+  if(!storageMode) storageMode = "memory";
+
+  if(!startDate){
+    startDate = new Date().toISOString();
+    persist();
+  }
+}
+
+async function persist(){
+  const payload = JSON.stringify({logs, startDate});
+  if(storageMode === "claude"){
+    try{ await tryClaudeSet(payload); return; }
+    catch(e){ storageMode = "local"; }
+  }
+  if(storageMode === "local"){
+    try{ localStorage.setItem(STORAGE_KEY, payload); return; }
+    catch(e){ storageMode = "memory"; }
+  }
+  // memory: nessun salvataggio persistente possibile
+}
+
+function currentWeek(){
+  const ms = Date.now() - new Date(startDate).getTime();
+  return Math.min(4, Math.floor(ms / (7*24*3600*1000)) + 1);
+}
+const WEEK_TIPS = {
+  1:"trova i carichi giusti, chiudi le serie con 2–3 ripetizioni in riserva.",
+  2:"stessi carichi, prova ad aggiungere 1–2 ripetizioni per serie.",
+  3:"aumenta il carico (2,5–5 kg) dove hai raggiunto il tetto del range.",
+  4:"aggiungi una serie al primo esercizio della giornata e spingi a 1 rip in riserva."
+};
+
+function lastEntries(id){
+  const arr = logs[id] || [];
+  return arr.slice(-2);
+}
+
+function renderLast(ex){
+  const arr = logs[ex.id] || [];
+  if(arr.length === 0) return `Nessun dato · oggi si parte`;
+  const l = arr[arr.length-1];
+  let txt = `Ultima (${l.d}): <span class="val">${l.kg ? l.kg+" kg × " : ""}${l.reps} rip</span>`;
+  if(arr.length > 1){
+    const p = arr[arr.length-2];
+    const lk = parseFloat(l.kg)||0, pk = parseFloat(p.kg)||0;
+    const lr = parseFloat(l.reps)||0, pr = parseFloat(p.reps)||0;
+    if(lk > pk || (lk === pk && lr > pr)) txt += ` <span class="up">in crescita</span>`;
+  }
+  return txt;
+}
+
+function renderHistory(ex){
+  const arr = (logs[ex.id] || []).slice().reverse();
+  if(arr.length === 0) return "<li>Ancora vuoto.</li>";
+  return arr.map(e=>`<li>${e.d} — <span>${e.kg ? e.kg+" kg × " : ""}${e.reps} rip</span></li>`).join("");
+}
+
+function exCard(ex){
+  return `
+  <div class="ex" id="card-${ex.id}">
+    <div class="ex-head">
+      <div class="ex-name">${ex.name}</div>
+      <div class="ex-meta">
+        <span class="scheme">${ex.scheme}</span>
+        <span>rec ${ex.rest}</span>
+        <span>${ex.focus}</span>
+      </div>
+    </div>
+    <div class="last" id="last-${ex.id}">${renderLast(ex)}</div>
+    <div class="logrow">
+      ${ex.noKg ? "" : `<input type="number" inputmode="decimal" id="kg-${ex.id}" placeholder="kg">`}
+      <input type="number" inputmode="numeric" id="reps-${ex.id}" placeholder="${ex.id==='giri' ? 'giri' : 'rip'}">
+      <button onclick="saveLog('${ex.id}')" id="btn-${ex.id}">Salva</button>
+    </div>
+    <details class="hist">
+      <summary>Storico</summary>
+      <ul id="hist-${ex.id}">${renderHistory(ex)}</ul>
+    </details>
+  </div>`;
+}
+
+async function saveLog(id){
+  const kgEl = document.getElementById("kg-"+id);
+  const repsEl = document.getElementById("reps-"+id);
+  const reps = repsEl.value.trim();
+  if(!reps){ repsEl.focus(); return; }
+  const entry = { d: today(), kg: kgEl ? kgEl.value.trim() : "", reps };
+  if(!logs[id]) logs[id] = [];
+  logs[id].push(entry);
+  await persist();
+  const ex = findEx(id);
+  document.getElementById("last-"+id).innerHTML = renderLast(ex);
+  document.getElementById("hist-"+id).innerHTML = renderHistory(ex);
+  repsEl.value = ""; if(kgEl) kgEl.value = "";
+  const btn = document.getElementById("btn-"+id);
+  btn.classList.add("saved"); btn.textContent = "Fatto";
+  setTimeout(()=>{ btn.classList.remove("saved"); btn.textContent = "Salva"; }, 1200);
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1300);
+}
+
+function findEx(id){
+  for(const d of DAYS){ if(d.exercises){ const e = d.exercises.find(x=>x.id===id); if(e) return e; } }
+  return null;
+}
+
+function guideHtml(){
+  return `
+  <div class="guide">
+    <h2>Come progredire</h2>
+    <p>Ogni esercizio ha un range di ripetizioni. Quando completi il tetto del range in <b>tutte le serie</b> con buona tecnica, alla sessione dopo aumenti il carico di 2,5–5 kg e riparti dal fondo del range. Finite le 4 settimane, ripeti il ciclo continuando la progressione: <b>obiettivo 12 settimane senza cambiare programma</b>.</p>
+    <div class="note"><b>Ordine settimanale:</b> G1 → G2 → riposo → G3 → G4 → riposo. Evita il G4 il giorno prima del G2: gambe fresche per lo squat.</div>
+
+    <h2>Esecuzione esercizi chiave</h2>
+    <details class="exec"><summary>Stacco rumeno</summary><p>Ginocchia poco flesse e fisse. Spingi il bacino indietro con la schiena neutra, bilanciere che scivola lungo le cosce. Scendi finché tirano i femorali, risali contraendo i glutei. Le anche vanno indietro, non in basso: non è uno squat.</p></details>
+    <details class="exec"><summary>Kettlebell clean</summary><p>Esplodi con le anche e guida la kettlebell lungo il corpo fino alla spalla, ruotando il polso all'ultimo momento perché atterri morbida sull'avambraccio. Se ti sbatte sul polso, la stai lanciando in arco: tienila vicina.</p></details>
+    <details class="exec"><summary>Kettlebell swing</summary><p>È un movimento d'anca, non di braccia. Cerniera come nello stacco rumeno, poi estensione esplosiva di anche e glutei: le braccia sono corde, la kettlebell sale per inerzia fino al petto.</p></details>
+    <details class="exec"><summary>Face pull</summary><p>Cavo all'altezza del viso, corda con presa neutra. Tira verso la fronte separando le mani a fine corsa, gomiti alti, scapole strette. Carico leggero, controllo massimo.</p></details>
+
+    <h2>Alimentazione e idratazione</h2>
+    <ul>
+      <li><b>Proteine: 120–150 g al giorno</b> (1,6–2 g per kg), su 3–4 pasti. Per una settimana contale con un'app (Yazio, MyFitnessPal) solo per capire dove sei.</li>
+      <li><b>Mangia a mantenimento o leggero surplus</b> (+200/300 kcal nei giorni di allenamento). Il fisico definito arriva costruendo muscolo, non tagliando.</li>
+      <li><b>Acqua: circa 2,5 litri al giorno</b> + 500 ml durante la sessione, soprattutto nel G4.</li>
+      <li><b>Sonno 7–9 ore.</b> È lì che il muscolo si costruisce.</li>
+    </ul>
+  </div>`;
+}
+
+function render(){
+  const tabs = document.getElementById("tabs");
+  const content = document.getElementById("content");
+  tabs.innerHTML = DAYS.map((d,i)=>
+    `<button id="tab-${d.id}" onclick="show('${d.id}')">${d.tab}<small>${d.label}</small></button>`
+  ).join("");
+  content.innerHTML = DAYS.map(d=>{
+    if(d.guide) return `<section class="day" id="day-${d.id}">${guideHtml()}</section>`;
+    return `
+    <section class="day" id="day-${d.id}">
+      <p class="phase"><b>Riscaldamento:</b> ${d.warmup}</p>
+      ${d.circuit ? `<div class="note">${d.circuit}</div>` : ""}
+      ${d.exercises.map(exCard).join("")}
+      <p class="phase"><b>Chiusura:</b> ${d.cooldown}</p>
+    </section>`;
+  }).join("");
+  const bar = document.getElementById("weekbar");
+  const w = currentWeek();
+  let extra = "";
+  if(storageMode === "memory") extra = " · Attenzione: qui i dati non restano salvati alla chiusura — salva il file sul telefono e aprilo dal browser.";
+  bar.innerHTML = `<strong>Settimana ${w}</strong> — ${WEEK_TIPS[w]}${extra}`;
+}
+
+function show(id){
+  DAYS.forEach(d=>{
+    document.getElementById("day-"+d.id).classList.toggle("active", d.id===id);
+    document.getElementById("tab-"+d.id).classList.toggle("active", d.id===id);
+  });
+  window.scrollTo({top:0});
+}
+
+(async function init(){
+  await loadLogs();
+  render();
+  show("g1");
+})();
+</script>
+</body>
+</html>
